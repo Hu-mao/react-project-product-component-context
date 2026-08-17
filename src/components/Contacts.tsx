@@ -1,9 +1,8 @@
-import Menu from "../components/Menu";
+
 
 const Contacts = () => {
     return (
         <div className="mx-auto max-w-4xl p-6">
-            <Menu title="Contacts" />
 
             <div className="rounded-xl bg-white p-8 shadow-lg">
                 <h2 className="mb-6 text-2xl font-semibold">

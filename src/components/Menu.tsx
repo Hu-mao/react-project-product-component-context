@@ -1,9 +1,5 @@
 import {NavLink} from "react-router";
-
-type MenuProps = {
-    title: string;
-};
-const Menu = ({ title }: MenuProps) => {
+const Menu = () => {
     const linkStyle = ({ isActive }: { isActive: boolean }) =>
         `transition-colors ${
             isActive
@@ -13,7 +9,6 @@ const Menu = ({ title }: MenuProps) => {
 
     return (
         <>
-            <h1 className="mb-6 text-3xl font-bold">{title}</h1>
             <nav className="mb-6 flex justify-end gap-8 border-b pb-4 text-lg font-medium">
 
                 <NavLink to="/" className={linkStyle}>
