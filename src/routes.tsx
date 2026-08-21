@@ -29,58 +29,101 @@
 //             },
 //         ]
 //     }])
-import { createBrowserRouter } from "react-router";
-import { lazy, Suspense } from "react";
+import {
+    lazy,
+    Suspense
+} from "react";
 
-import Layout from "@/components/Layout";
-import CategoriesList from "@/components/CategoriesList";
-import Contacts from "@/components/Contacts";
-import Error from "@/components/Error";
+import {
+    createBrowserRouter
+} from "react-router";
+
+import Layout from "@/components/Layout.tsx";
+
+import Loader from "@/components/Loader.tsx";
+
+import Error from "@/components/Error.tsx";
+
+
+const CategoriesList = lazy(
+    () => import("@/components/CategoriesList.tsx")
+);
 
 const ProductsList = lazy(
-    () => import("@/components/ProductsList")
+    () => import("@/components/ProductsList.tsx")
+);
+
+const Contacts = lazy(
+    () => import("@/components/Contacts.tsx")
 );
 
 const Search = lazy(
-    () => import("@/components/Search")
+    () => import("@/components/Search.tsx")
 );
 
-const Loader = () => (
-    <div className="flex justify-center items-center py-10">
-        <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-blue-500"></div>
-    </div>
-);
+
+const withLoader = (
+    component: React.ReactNode
+) => {
+
+    return (
+        <Suspense
+            fallback={
+                <Loader
+                    text="Завантаження сторінки..."
+                />
+            }
+        >
+            {component}
+        </Suspense>
+    );
+};
+
 
 export const routes = createBrowserRouter([
+
     {
         path: "/",
+
         element: <Layout />,
+
         errorElement: <Error />,
+
         children: [
+
             {
                 index: true,
-                element: <CategoriesList />,
+
+                element: withLoader(
+                    <CategoriesList />
+                )
             },
+
             {
                 path: "Products",
-                element: (
-                    <Suspense fallback={<Loader />}>
-                        <ProductsList />
-                    </Suspense>
-                ),
+
+                element: withLoader(
+                    <ProductsList />
+                )
             },
+
             {
                 path: "Contacts",
-                element: <Contacts />,
+
+                element: withLoader(
+                    <Contacts />
+                )
             },
+
             {
                 path: "search",
-                element: (
-                    <Suspense fallback={<Loader />}>
-                        <Search />
-                    </Suspense>
-                ),
-            },
-        ],
-    },
+
+                element: withLoader(
+                    <Search />
+                )
+            }
+
+        ]
+    }
+
 ]);
