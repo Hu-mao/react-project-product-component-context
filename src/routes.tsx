@@ -39,11 +39,8 @@ import {
 } from "react-router";
 
 import Layout from "@/components/Layout.tsx";
-
 import Loader from "@/components/Loader.tsx";
-
 import Error from "@/components/Error.tsx";
-
 
 const CategoriesList = lazy(
     () => import("@/components/CategoriesList.tsx")
@@ -61,11 +58,17 @@ const Search = lazy(
     () => import("@/components/Search.tsx")
 );
 
+const Register = lazy(
+    () => import("@/components/Register.tsx")
+);
+
+const Login = lazy(
+    () => import("@/components/Login.tsx")
+);
 
 const withLoader = (
     component: React.ReactNode
 ) => {
-
     return (
         <Suspense
             fallback={
@@ -79,9 +82,7 @@ const withLoader = (
     );
 };
 
-
 export const routes = createBrowserRouter([
-
     {
         path: "/",
 
@@ -90,7 +91,6 @@ export const routes = createBrowserRouter([
         errorElement: <Error />,
 
         children: [
-
             {
                 index: true,
 
@@ -121,9 +121,23 @@ export const routes = createBrowserRouter([
                 element: withLoader(
                     <Search />
                 )
-            }
+            },
 
+            {
+                path: "register",
+
+                element: withLoader(
+                    <Register />
+                )
+            },
+
+            {
+                path: "login",
+
+                element: withLoader(
+                    <Login />
+                )
+            }
         ]
     }
-
 ]);

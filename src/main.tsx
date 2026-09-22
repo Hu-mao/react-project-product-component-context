@@ -1,11 +1,12 @@
+import React from "react";
 import ReactDOM from "react-dom/client";
-import "./index.css"
-// import App from "./App";
-// import { ProductsProvider } from "./context/ProductsProvider";
-import {RouterProvider} from "react-router";
-import {routes} from "@/routes.tsx";
-import {ProductsProvider} from "@/context/ProductsProvider.tsx";
+import App from "./App";
+import "./index.css";
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-    <ProductsProvider><RouterProvider router={routes}></RouterProvider></ProductsProvider>
+ReactDOM.createRoot(
+    document.getElementById("root")!
+).render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>
 );
