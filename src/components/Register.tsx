@@ -1,3 +1,4 @@
+
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 
@@ -58,38 +59,55 @@ export default function Register() {
     };
 
     return (
-        <div className="auth-container">
+        <div className="flex min-h-[calc(100vh-72px)] items-center justify-center bg-gray-100 px-4 py-10">
             <form
-                className="auth-form"
+                className="w-full max-w-md space-y-6 rounded-2xl border border-gray-200 bg-white p-8 shadow-lg"
                 onSubmit={handleSubmit(onSubmit)}
             >
-                <h2>Register</h2>
+                <h2 className="text-center text-3xl font-bold text-gray-900">
+                    Register
+                </h2>
 
-                <div className="form-group">
-                    <label>Email:</label>
+                <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-gray-700">
+                        Email:
+                    </label>
+
                     <input
                         type="email"
                         {...register("email")}
+                        className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                     />
                 </div>
 
-                <div className="form-group">
-                    <label>Password:</label>
+                <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-gray-700">
+                        Password:
+                    </label>
+
                     <input
                         type="password"
                         {...register("password")}
+                        className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                     />
                 </div>
 
-                <div className="form-group">
-                    <label>Confirm Password:</label>
+                <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-gray-700">
+                        Confirm Password:
+                    </label>
+
                     <input
                         type="password"
                         {...register("confirmPassword")}
+                        className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                     />
                 </div>
 
-                <button type="submit">
+                <button
+                    type="submit"
+                    className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md active:scale-[0.99]"
+                >
                     Register
                 </button>
             </form>

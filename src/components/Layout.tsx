@@ -1,45 +1,123 @@
-import { Outlet, Link } from "react-router";
+import { Outlet, Link, useLocation } from "react-router";
 import { useAuth } from "@/components/AuthContext";
 
 export default function Layout() {
     const { email, accessToken, logout } = useAuth();
+    const location = useLocation();
 
     return (
-        <>
-            <header>
-                <Link to="/">Home</Link>{" "}
-                <Link to="/Products">Products</Link>{" "}
-                <Link to="/Contacts">Contacts</Link>{" "}
-                <Link to="/search">Search</Link>
+        <div className="min-h-screen bg-gray-100 text-gray-800">
 
-                <div>
-                    {accessToken ? (
-                        <>
-                            <span>
-                                Welcome, {email}
-                            </span>{" "}
+            {/* Header */}
+            <header className="sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm">
+                <div className="mx-auto flex min-h-18 max-w-7xl items-center gap-8 px-6">
 
-                            <button onClick={logout}>
-                                Logout
-                            </button>
-                        </>
-                    ) : (
-                        <>
-                            <Link to="/login">
-                                Login
-                            </Link>{" "}
+                    {/* Logo */}
+                    <Link
+                        to="/"
+                        className="text-2xl font-extrabold tracking-tight text-blue-600 transition hover:text-blue-700"
+                    >
+                        Shop
+                    </Link>
 
-                            <Link to="/register">
-                                Register
-                            </Link>
-                        </>
-                    )}
+                    {/* Navigation */}
+                    <nav className="flex flex-1 items-center gap-2">
+                        <Link
+                            to="/"
+                            className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
+                                location.pathname === "/"
+                                    ? "bg-blue-100 text-blue-700"
+                                    : "text-gray-600 hover:bg-blue-50 hover:text-blue-600"
+                            }`}
+                        >
+                            Home
+                        </Link>
+
+                        <Link
+                            to="/Products"
+                            className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
+                                location.pathname.toLowerCase() === "/products"
+                                    ? "bg-blue-100 text-blue-700"
+                                    : "text-gray-600 hover:bg-blue-50 hover:text-blue-600"
+                            }`}
+                        >
+                            Products
+                        </Link>
+
+                        <Link
+                            to="/Categories"
+                            className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
+                                location.pathname.toLowerCase() === "/categories"
+                                    ? "bg-blue-100 text-blue-700"
+                                    : "text-gray-600 hover:bg-blue-50 hover:text-blue-600"
+                            }`}
+                        >
+                            Categories
+                        </Link>
+
+                        <Link
+                            to="/Contacts"
+                            className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
+                                location.pathname.toLowerCase() === "/contacts"
+                                    ? "bg-blue-100 text-blue-700"
+                                    : "text-gray-600 hover:bg-blue-50 hover:text-blue-600"
+                            }`}
+                        >
+                            Contacts
+                        </Link>
+
+                        <Link
+                            to="/search"
+                            className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
+                                location.pathname.toLowerCase() === "/search"
+                                    ? "bg-blue-100 text-blue-700"
+                                    : "text-gray-600 hover:bg-blue-50 hover:text-blue-600"
+                            }`}
+                        >
+                            Search
+                        </Link>
+                    </nav>
+
+                    {/* Auth */}
+                    <div className="flex items-center gap-3">
+                        {accessToken ? (
+                            <>
+                                <span className="max-w-50 truncate text-sm font-medium text-gray-600">
+                                    {email}
+                                </span>
+
+                                <button
+                                    onClick={logout}
+                                    className="rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm font-semibold text-red-600 transition hover:bg-red-100"
+                                >
+                                    Logout
+                                </button>
+                            </>
+                        ) : (
+                            <>
+                                <Link
+                                    to="/login"
+                                    className="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition hover:bg-blue-50 hover:text-blue-600"
+                                >
+                                    Login
+                                </Link>
+
+                                <Link
+                                    to="/register"
+                                    className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow"
+                                >
+                                    Register
+                                </Link>
+                            </>
+                        )}
+                    </div>
                 </div>
             </header>
 
-            <main>
+            {/* Content */}
+            <main className="mx-auto min-h-[calc(100vh-72px)] max-w-7xl px-6 py-8">
                 <Outlet />
             </main>
-        </>
+        </div>
     );
 }

@@ -1,197 +1,4 @@
-// import { useState } from "react";
-// import { useNavigate } from "react-router";
-//
-// const SERVER =
-//     `${import.meta.env.VITE_PATH_TO_SERVER}${import.meta.env.VITE_PATH_TO_API}`;
-//
-// const Login = () => {
-//     const navigate = useNavigate();
-//
-//     const [email, setEmail] = useState("");
-//     const [password, setPassword] = useState("");
-//     const [error, setError] = useState("");
-//
-//     const handleSubmit = async (e: React.FormEvent) => {
-//         e.preventDefault();
-//         setError("");
-//
-//         try {
-//             const response = await fetch(`${SERVER}auth/login`, {
-//                 method: "POST",
-//                 headers: {
-//                     "Content-Type": "application/json"
-//                 },
-//                 credentials: "include",
-//                 body: JSON.stringify({
-//                     email,
-//                     password
-//                 })
-//             });
-//
-//             if (!response.ok) {
-//                 throw new Error("Неправильний email або пароль");
-//             }
-//
-//             const data = await response.json();
-//
-//             localStorage.setItem("accessToken", data.accessToken);
-//             localStorage.setItem("email", email);
-//
-//             navigate("/");
-//             window.location.reload();
-//
-//         } catch (error) {
-//             setError(
-//                 error instanceof Error
-//                     ? error.message
-//                     : "Помилка авторизації"
-//             );
-//         }
-//     };
-//
-//     return (
-//         <div className="mx-auto mt-10 max-w-md rounded-lg border p-6 shadow">
-//             <h2 className="mb-6 text-2xl font-bold">
-//                 Авторизація
-//             </h2>
-//
-//             <form
-//                 onSubmit={handleSubmit}
-//                 className="flex flex-col gap-4"
-//             >
-//                 <input
-//                     type="email"
-//                     placeholder="Email"
-//                     value={email}
-//                     onChange={(e) => setEmail(e.target.value)}
-//                     className="rounded border p-3"
-//                     required
-//                 />
-//
-//                 <input
-//                     type="password"
-//                     placeholder="Пароль"
-//                     value={password}
-//                     onChange={(e) => setPassword(e.target.value)}
-//                     className="rounded border p-3"
-//                     required
-//                 />
-//
-//                 {error && (
-//                     <p className="text-red-500">
-//                         {error}
-//                     </p>
-//                 )}
-//
-//                 <button
-//                     type="submit"
-//                     className="rounded bg-blue-600 p-3 text-white"
-//                 >
-//                     Увійти
-//                 </button>
-//             </form>
-//         </div>
-//     );
-// };
-//
-// export default Login;
-// import { useState } from "react";
-// import { useNavigate } from "react-router";
-//
-// const SERVER =
-//     `${import.meta.env.VITE_PATH_TO_SERVER}${import.meta.env.VITE_PATH_TO_API}`;
-//
-// const Login = () => {
-//     const navigate = useNavigate();
-//
-//     const [email, setEmail] = useState("");
-//     const [password, setPassword] = useState("");
-//     const [error, setError] = useState("");
-//
-//     const handleSubmit = async (e: React.FormEvent) => {
-//         e.preventDefault();
-//         setError("");
-//
-//         try {
-//             const response = await fetch(`${SERVER}auth/login`, {
-//                 method: "POST",
-//                 headers: {
-//                     "Content-Type": "application/json"
-//                 },
-//                 credentials: "include",
-//                 body: JSON.stringify({
-//                     email,
-//                     password
-//                 })
-//             });
-//
-//             if (!response.ok) {
-//                 throw new Error("Неправильний email або пароль");
-//             }
-//
-//             const data = await response.json();
-//
-//             localStorage.setItem("accessToken", data.accessToken);
-//             localStorage.setItem("email", email);
-//
-//             navigate("/");
-//             window.location.reload();
-//
-//         } catch (error) {
-//             setError(
-//                 error instanceof Error
-//                     ? error.message
-//                     : "Помилка авторизації"
-//             );
-//         }
-//     };
-//
-//     return (
-//         <div className="mx-auto mt-10 max-w-md rounded-lg border p-6 shadow">
-//             <h2 className="mb-6 text-2xl font-bold">
-//                 Авторизація
-//             </h2>
-//
-//             <form
-//                 onSubmit={handleSubmit}
-//                 className="flex flex-col gap-4"
-//             >
-//                 <input
-//                     type="email"
-//                     placeholder="Email"
-//                     value={email}
-//                     onChange={(e) => setEmail(e.target.value)}
-//                     className="rounded border p-3"
-//                     required
-//                 />
-//
-//                 <input
-//                     type="password"
-//                     placeholder="Пароль"
-//                     value={password}
-//                     onChange={(e) => setPassword(e.target.value)}
-//                     className="rounded border p-3"
-//                     required
-//                 />
-//
-//                 {error && (
-//                     <p className="text-red-500">
-//                         {error}
-//                     </p>
-//                 )}
-//
-//                 <button
-//                     type="submit"
-//                     className="rounded bg-blue-600 p-3 text-white"
-//                 >
-//                     Увійти
-//                 </button>
-//             </form>
-//         </div>
-//     );
-// };
-//
-// export default Login;
+
 import {type FormEvent, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from './AuthContext.tsx';
@@ -241,32 +48,49 @@ export default function Login() {
     };
 
     return (
-        <div>
-            <h2>Авторизація</h2>
+        <div className="flex min-h-[calc(100vh-72px)] items-center justify-center bg-gray-100 px-4 py-10">
+            <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 shadow-lg">
 
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
+                <h2 className="mb-8 text-center text-3xl font-bold text-gray-900">
+                    Авторизація
+                </h2>
 
-                <input
-                    type="password"
-                    placeholder="Пароль"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
+                <form
+                    onSubmit={handleSubmit}
+                    className="flex flex-col gap-5"
+                >
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                    />
 
-                <button type="submit">
-                    Увійти
-                </button>
+                    <input
+                        type="password"
+                        placeholder="Пароль"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                        className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none transition placeholder:text-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
+                    />
 
-                {error && <p>{error}</p>}
-            </form>
+                    <button
+                        type="submit"
+                        className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md active:scale-[0.99]"
+                    >
+                        Увійти
+                    </button>
+
+                    {error && (
+                        <p className="rounded-lg bg-red-50 px-4 py-3 text-center text-sm font-medium text-red-600">
+                            {error}
+                        </p>
+                    )}
+                </form>
+            </div>
         </div>
     );
 }
