@@ -1,18 +1,32 @@
+import { useState } from "react";
 import { Outlet, Link, useLocation } from "react-router";
 import { useAuth } from "@/components/AuthContext";
+import Login from "@/components/Login";
+import Register from "@/components/Register";
 
 export default function Layout() {
     const { email, accessToken, logout } = useAuth();
     const location = useLocation();
 
+    const [showLogin, setShowLogin] = useState(false);
+    const [showRegister, setShowRegister] = useState(false);
+
+    const openLogin = () => {
+        setShowRegister(false);
+        setShowLogin(true);
+    };
+
+    const openRegister = () => {
+        setShowLogin(false);
+        setShowRegister(true);
+    };
+
     return (
         <div className="min-h-screen bg-gray-100 text-gray-800">
 
-            {/* Header */}
             <header className="sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm">
                 <div className="mx-auto flex min-h-18 max-w-7xl items-center gap-8 px-6">
 
-                    {/* Logo */}
                     <Link
                         to="/"
                         className="text-2xl font-extrabold tracking-tight text-blue-600 transition hover:text-blue-700"
@@ -20,7 +34,6 @@ export default function Layout() {
                         Shop
                     </Link>
 
-                    {/* Navigation */}
                     <nav className="flex flex-1 items-center gap-2">
                         <Link
                             to="/"
@@ -78,7 +91,6 @@ export default function Layout() {
                         </Link>
                     </nav>
 
-                    {/* Auth */}
                     <div className="flex items-center gap-3">
                         {accessToken ? (
                             <>
@@ -95,29 +107,40 @@ export default function Layout() {
                             </>
                         ) : (
                             <>
-                                <Link
-                                    to="/login"
+                                <button
+                                    onClick={openLogin}
                                     className="rounded-lg px-4 py-2 text-sm font-medium text-gray-600 transition hover:bg-blue-50 hover:text-blue-600"
                                 >
                                     Login
-                                </Link>
+                                </button>
 
-                                <Link
-                                    to="/register"
+                                <button
+                                    onClick={openRegister}
                                     className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow"
                                 >
                                     Register
-                                </Link>
+                                </button>
                             </>
                         )}
                     </div>
                 </div>
             </header>
 
-            {/* Content */}
             <main className="mx-auto min-h-[calc(100vh-72px)] max-w-7xl px-6 py-8">
                 <Outlet />
             </main>
+
+            {showLogin && (
+                <Login
+                    onClose={() => setShowLogin(false)}
+                />
+            )}
+
+            {showRegister && (
+                <Register
+                    onClose={() => setShowRegister(false)}
+                />
+            )}
         </div>
     );
 }

@@ -1,34 +1,3 @@
-// import {createBrowserRouter} from "react-router";
-// import Layout from "@/components/Layout.tsx";
-// import CategoriesList from "@/components/CategoriesList.tsx";
-// import ProductsList from "@/components/ProductsList.tsx";
-// import Contacts from "@/components/Contacts.tsx";
-// import Search from "@/components/Search.tsx";
-// import Error from "@/components/Error.tsx";
-// export const routes = createBrowserRouter([
-//     {
-//         path: "/",
-//         element:<Layout />,
-//         errorElement:<Error/>,
-//         children:[
-//             {
-//                 index:true,
-//                 element:<CategoriesList />
-//             },
-//             {
-//                 path:'Products',
-//                 element:<ProductsList />
-//             },
-//             {
-//                 path:'Contacts',
-//                 element:<Contacts />
-//             },
-//             {
-//                 path:"search",
-//                 element:<Search />
-//             },
-//         ]
-//     }])
 import {
     lazy,
     Suspense
@@ -58,14 +27,6 @@ const Search = lazy(
     () => import("@/components/Search.tsx")
 );
 
-const Register = lazy(
-    () => import("@/components/Register.tsx")
-);
-
-const Login = lazy(
-    () => import("@/components/Login.tsx")
-);
-
 const withLoader = (
     component: React.ReactNode
 ) => {
@@ -85,57 +46,32 @@ const withLoader = (
 export const routes = createBrowserRouter([
     {
         path: "/",
-
         element: <Layout />,
-
         errorElement: <Error />,
 
         children: [
             {
                 index: true,
-
                 element: withLoader(
                     <CategoriesList />
                 )
             },
-
             {
                 path: "Products",
-
                 element: withLoader(
                     <ProductsList />
                 )
             },
-
             {
                 path: "Contacts",
-
                 element: withLoader(
                     <Contacts />
                 )
             },
-
             {
                 path: "search",
-
                 element: withLoader(
                     <Search />
-                )
-            },
-
-            {
-                path: "register",
-
-                element: withLoader(
-                    <Register />
-                )
-            },
-
-            {
-                path: "login",
-
-                element: withLoader(
-                    <Login />
                 )
             }
         ]

@@ -1,6 +1,7 @@
-
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
+import AuthModal from "./AuthModal";
+import { useAuth } from "./AuthContext";
 
 type RegisterFormData = {
     email: string;
@@ -8,9 +9,18 @@ type RegisterFormData = {
     confirmPassword: string;
 };
 
-export default function Register() {
-    const { register, handleSubmit } = useForm<RegisterFormData>();
+interface RegisterProps {
+    onClose: () => void;
+}
+
+export default function Register({ onClose }: RegisterProps) {
+    const {
+        register,
+        handleSubmit
+    } = useForm<RegisterFormData>();
+
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const onSubmit = async (data: RegisterFormData) => {
         if (data.password !== data.confirmPassword) {
@@ -40,17 +50,13 @@ export default function Register() {
 
             const result = await response.json();
 
-            localStorage.setItem("accessToken", result.accessToken);
+            login(
+                result.accessToken,
+                result.refreshToken,
+                data.email
+            );
 
-            if (result.refreshToken) {
-                localStorage.setItem(
-                    "refreshToken",
-                    result.refreshToken
-                );
-            }
-
-            localStorage.setItem("email", data.email);
-
+            onClose();
             navigate("/");
         } catch (error) {
             console.error(error);
@@ -59,58 +65,61 @@ export default function Register() {
     };
 
     return (
-        <div className="flex min-h-[calc(100vh-72px)] items-center justify-center bg-gray-100 px-4 py-10">
+        <AuthModal onClose={onClose}>
             <form
-                className="w-full max-w-md space-y-6 rounded-2xl border border-gray-200 bg-white p-8 shadow-lg"
+                className="space-y-6"
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <h2 className="text-center text-3xl font-bold text-gray-900">
-                    Register
+                    Реєстрація
                 </h2>
 
                 <div className="space-y-2">
                     <label className="block text-sm font-semibold text-gray-700">
-                        Email:
+                        Email
                     </label>
 
                     <input
                         type="email"
                         {...register("email")}
+                        required
                         className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                     />
                 </div>
 
                 <div className="space-y-2">
                     <label className="block text-sm font-semibold text-gray-700">
-                        Password:
+                        Пароль
                     </label>
 
                     <input
                         type="password"
                         {...register("password")}
+                        required
                         className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                     />
                 </div>
 
                 <div className="space-y-2">
                     <label className="block text-sm font-semibold text-gray-700">
-                        Confirm Password:
+                        Повторіть пароль
                     </label>
 
                     <input
                         type="password"
                         {...register("confirmPassword")}
+                        required
                         className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                     />
                 </div>
 
                 <button
                     type="submit"
-                    className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md active:scale-[0.99]"
+                    className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md"
                 >
-                    Register
+                    Зареєструватися
                 </button>
             </form>
-        </div>
+        </AuthModal>
     );
 }
