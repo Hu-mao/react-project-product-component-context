@@ -55,15 +55,15 @@ export const routes = createBrowserRouter([
 
         children: [
             {
-                index: true,
-                element: withLoader(
-                    <CategoriesList />
-                )
-            },
-            {
                 path: "Products",
                 element: withLoader(
                     <ProductsList />
+                )
+            },
+            {
+                path: "Categories",
+                element: withLoader(
+                    <CategoriesList />
                 )
             },
             {
