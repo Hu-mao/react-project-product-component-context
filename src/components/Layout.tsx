@@ -3,11 +3,12 @@ import { Outlet, Link, useLocation } from "react-router";
 import { useAuth } from "@/components/AuthContext";
 import Login from "@/components/Login";
 import Register from "@/components/Register";
+import {useCart} from "@/components/CartStore.tsx";
 
 export default function Layout() {
     const { email, accessToken, logout } = useAuth();
     const location = useLocation();
-
+    const { cart } = useCart();
     const [showLogin, setShowLogin] = useState(false);
     const [showRegister, setShowRegister] = useState(false);
 
@@ -88,6 +89,12 @@ export default function Layout() {
                             }`}
                         >
                             Search
+                        </Link>
+                        <Link
+                            to="/Cart"
+                            className="rounded-lg bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-200"
+                        >
+                            🛒 ({cart.reduce((sum, item) => sum + item.quantity, 0)})
                         </Link>
                     </nav>
 

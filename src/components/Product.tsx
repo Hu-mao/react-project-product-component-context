@@ -1,4 +1,5 @@
 import type { ProductType } from "@/types/ProductType";
+import {useCart} from "@/components/CartStore.tsx";
 
 const Product = ({
                      product
@@ -15,7 +16,7 @@ const Product = ({
         stockQty,
         price
     } = product;
-
+    const { addToCart } = useCart();
     const image =
         images?.length > 0
             ? images[0]
@@ -99,9 +100,10 @@ const Product = ({
 
                     <button
                         type="button"
+                        onClick={() => addToCart(product)}
                         className="rounded-lg bg-blue-600 px-5 py-2.5 font-medium text-white transition hover:bg-blue-700"
                     >
-                        Купити
+                        Додати в кошик
                     </button>
 
                 </div>

@@ -10,6 +10,8 @@ import {
 import Layout from "@/components/Layout.tsx";
 import Loader from "@/components/Loader.tsx";
 import Error from "@/components/Error.tsx";
+import {CartProvider} from "@/components/CartStore.tsx";
+import Cart from "@/components/Cart.tsx";
 
 const CategoriesList = lazy(
     () => import("@/components/CategoriesList.tsx")
@@ -48,7 +50,9 @@ export const routes = createBrowserRouter([
         path: "/",
         element: (
             <AuthProvider>
-                <Layout />
+                <CartProvider>
+                    <Layout />
+                </CartProvider>
             </AuthProvider>
         ),
         errorElement: <Error />,
@@ -77,7 +81,11 @@ export const routes = createBrowserRouter([
                 element: withLoader(
                     <Search />
                 )
-            }
+            },
+            {
+                path: "Cart",
+                element: <Cart />
+            },
         ]
     }
 ]);
