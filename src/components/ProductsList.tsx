@@ -1,122 +1,104 @@
-// import Product from "./Product";
-// import { useProducts } from "../hooks/useProducts";
-//
-// const ProductsList = () => {
-//     const { products } = useProducts();
-//
-//     if (products.length === 0) {
-//         return (
-//             <div className="p-8 text-center text-gray-500">
-//                 Список товарів порожній
-//             </div>
-//         );
-//     }
-//
-//     return (
-//         <div className="mx-auto max-w-10xl p-6">
-//             <div className="flex flex-wrap gap-6 p-8 justify-center">
-//                {products.map((product) => (
-//                    <Product key={product.id} product={product} />
-//                ))}
-//             </div>
-//         </div>
-//     );
-// };
-//
-// export default ProductsList;
-
-
-// import Product from "./Product";
-// import { useProducts } from "../hooks/useProducts";
-//
-// const ProductsList = () => {
-//     const { products, loading } = useProducts();
-//
-//     if (loading) {
-//         return (
-//             <div className="flex justify-center items-center py-10">
-//                 <div className="h-12 w-12 animate-spin rounded-full border-4 border-gray-300 border-t-blue-500"></div>
-//             </div>
-//         );
-//     }
-//
-//     if (products.length === 0) {
-//         return (
-//             <div className="p-8 text-center text-gray-500">
-//                 Список товарів порожній
-//             </div>
-//         );
-//     }
-//
-//     return (
-//         <div className="mx-auto max-w-7xl p-6">
-//             <div className="flex flex-wrap gap-6 p-8 justify-center">
-//                 {products.map((product) => (
-//                     <Product
-//                         key={product.id}
-//                         product={product}
-//                     />
-//                 ))}
-//             </div>
-//         </div>
-//     );
-// };
-//
-// export default ProductsList;
-
 import {
     lazy,
-    Suspense
+    Suspense,
+    useEffect,
+    useState
 } from "react";
 
-import { useProducts } from "../hooks/useProducts";
-
+import { useProducts } from "@/hooks/useProducts";
 import Loader from "./Loader";
+import CreateProduct from "./CreateProduct";
+import type { CategoryType } from "@/types/CategoryType";
 
-const Product = lazy(() => import("./Product"));
+const Product = lazy(
+    () => import("./Product")
+);
 
 const ProductsList = () => {
-
     const {
         products,
         loading
     } = useProducts();
 
-    if (loading) {
-        return <Loader text="Завантаження продуктів..." />;
-    }
+    const [categories, setCategories] =
+        useState<CategoryType[]>([]);
 
-    if (products.length === 0) {
+    useEffect(() => {
+        const loadCategories = async () => {
+            try {
+                const response = await fetch(
+                    `${import.meta.env.VITE_PATH_TO_SERVER}${import.meta.env.VITE_PATH_TO_API}category?page=1&pageSize=1000`
+                );
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Не вдалося завантажити категорії"
+                    );
+                }
+
+                const data =
+                    await response.json();
+
+                setCategories(
+                    data.items ?? []
+                );
+
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        loadCategories();
+    }, []);
+
+    const reloadProducts = () => {
+        window.location.reload();
+    };
+
+    if (loading) {
         return (
-            <div className="p-8 text-center text-gray-500">
-                Список товарів порожній
-            </div>
+            <Loader
+                text="Завантаження продуктів..."
+            />
         );
     }
 
     return (
-        <div className="mx-auto max-w-10xl p-6">
+        <div className="mx-auto max-w-7xl p-6">
 
-            <h1 className="mb-6 text-center text-3xl font-bold">
+            <h1 className="mb-8 text-center text-3xl font-bold">
                 Продукти
             </h1>
 
-            <div className="flex flex-wrap justify-center gap-6 p-8">
+            <CreateProduct
+                categories={categories}
+                onCreated={reloadProducts}
+            />
 
-                {products.map((product) => (
+            {products.length === 0 ? (
+                <div className="rounded-xl bg-white p-10 text-center text-gray-500 shadow">
+                    Список товарів порожній
+                </div>
+            ) : (
+                <div className="flex flex-wrap justify-center gap-6">
 
-                    <Suspense
-                        key={product.id}
-                        fallback={
-                            <Loader text="Завантаження товару..." />
-                        }
-                    >
-                        <Product product={product} />
-                    </Suspense>
+                    {products.map(
+                        (product) => (
+                            <Suspense
+                                key={product.id}
+                                fallback={
+                                    <Loader text="Завантаження товару..." />
+                                }
+                            >
+                                <Product
+                                    product={product}
+                                />
+                            </Suspense>
+                        )
+                    )}
 
-                ))}
-
-            </div>
+                </div>
+            )}
 
         </div>
     );

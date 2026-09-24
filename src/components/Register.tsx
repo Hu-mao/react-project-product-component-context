@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-import AuthModal from "./AuthModal";
 import { useAuth } from "./AuthContext";
 
 type RegisterFormData = {
@@ -9,16 +8,8 @@ type RegisterFormData = {
     confirmPassword: string;
 };
 
-interface RegisterProps {
-    onClose: () => void;
-}
-
-export default function Register({ onClose }: RegisterProps) {
-    const {
-        register,
-        handleSubmit
-    } = useForm<RegisterFormData>();
-
+export default function Register() {
+    const { register, handleSubmit } = useForm<RegisterFormData>();
     const navigate = useNavigate();
     const { login } = useAuth();
 
@@ -52,11 +43,10 @@ export default function Register({ onClose }: RegisterProps) {
 
             login(
                 result.accessToken,
-                result.refreshToken,
+                result.refreshToken ?? "",
                 data.email
             );
 
-            onClose();
             navigate("/");
         } catch (error) {
             console.error(error);
@@ -65,61 +55,58 @@ export default function Register({ onClose }: RegisterProps) {
     };
 
     return (
-        <AuthModal onClose={onClose}>
+        <div className="flex min-h-[calc(100vh-72px)] items-center justify-center bg-gray-100 px-4 py-10">
             <form
-                className="space-y-6"
+                className="w-full max-w-md space-y-6 rounded-2xl border border-gray-200 bg-white p-8 shadow-lg"
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <h2 className="text-center text-3xl font-bold text-gray-900">
-                    Реєстрація
+                    Register
                 </h2>
 
                 <div className="space-y-2">
                     <label className="block text-sm font-semibold text-gray-700">
-                        Email
+                        Email:
                     </label>
 
                     <input
                         type="email"
                         {...register("email")}
-                        required
                         className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                     />
                 </div>
 
                 <div className="space-y-2">
                     <label className="block text-sm font-semibold text-gray-700">
-                        Пароль
+                        Password:
                     </label>
 
                     <input
                         type="password"
                         {...register("password")}
-                        required
                         className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                     />
                 </div>
 
                 <div className="space-y-2">
                     <label className="block text-sm font-semibold text-gray-700">
-                        Повторіть пароль
+                        Confirm Password:
                     </label>
 
                     <input
                         type="password"
                         {...register("confirmPassword")}
-                        required
                         className="w-full rounded-lg border border-gray-300 px-4 py-3 text-gray-900 outline-none transition focus:border-blue-500 focus:ring-2 focus:ring-blue-200"
                     />
                 </div>
 
                 <button
                     type="submit"
-                    className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md"
+                    className="w-full rounded-lg bg-blue-600 py-3 font-semibold text-white shadow-sm transition hover:bg-blue-700 hover:shadow-md active:scale-[0.99]"
                 >
-                    Зареєструватися
+                    Register
                 </button>
             </form>
-        </AuthModal>
+        </div>
     );
 }

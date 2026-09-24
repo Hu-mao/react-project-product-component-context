@@ -1,61 +1,114 @@
-import type {ProductType} from "../types/ProductType.ts";
+import type { ProductType } from "@/types/ProductType";
 
+const Product = ({
+                     product
+                 }: {
+    product: ProductType;
+}) => {
+    const {
+        id,
+        name,
+        description,
+        images,
+        isActive,
+        categoryId,
+        stockQty,
+        price
+    } = product;
 
-const Product = (prop:{product:ProductType})=>{
-    const{id, title, image,is_active,id_category,count, price} = prop.product;
+    const image =
+        images?.length > 0
+            ? images[0]
+            : "";
+
     return (
-        <div className="w-full max-w-xs sm:max-w-sm md:max-w-md mx-auto bg-white border border-gray-200 rounded-2xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300">
-            <img
-                src={image}
-                alt={title}
-                className="w-full h-40 object-contain bg-gray-100"
-            />
+        <div className="w-full max-w-sm overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-md transition hover:shadow-xl">
 
-            <div className="p-4 sm:p-5">
-                <div className="flex flex-col gap-3 sm:flex-row sm:justify-between sm:items-start">
-                    <h2 className="text-lg sm:text-xl font-semibold text-gray-800 break-words">
-                        {title}
+            {image && (
+                <img
+                    src={image}
+                    alt={name}
+                    className="h-48 w-full bg-gray-100 object-contain"
+                />
+            )}
+
+            {!image && (
+                <div className="flex h-48 items-center justify-center bg-gray-100 text-gray-400">
+                    Немає зображення
+                </div>
+            )}
+
+            <div className="p-5">
+
+                <div className="flex items-start justify-between gap-3">
+
+                    <h2 className="text-xl font-bold text-gray-800">
+                        {name}
                     </h2>
 
                     <span
-                        className={`self-start px-3 py-1 text-xs font-medium rounded-full whitespace-nowrap ${
-                            is_active
+                        className={`rounded-full px-3 py-1 text-xs font-medium ${
+                            isActive
                                 ? "bg-green-100 text-green-700"
                                 : "bg-red-100 text-red-700"
                         }`}
                     >
-        {is_active ? "Активний" : "Неактивний"}
-      </span>
+                        {isActive
+                            ? "Активний"
+                            : "Неактивний"}
+                    </span>
+
                 </div>
 
-                <div className="mt-4 space-y-2 text-sm text-gray-600">
+                {description && (
+                    <p className="mt-3 line-clamp-3 text-sm text-gray-500">
+                        {description}
+                    </p>
+                )}
+
+                <div className="mt-5 space-y-2 text-sm text-gray-600">
+
                     <div className="flex justify-between">
                         <span>ID:</span>
-                        <span className="font-medium">{id}</span>
+                        <span className="font-medium">
+                            {id}
+                        </span>
                     </div>
 
                     <div className="flex justify-between">
                         <span>Категорія:</span>
-                        <span className="font-medium">{id_category}</span>
+                        <span className="font-medium">
+                            {categoryId}
+                        </span>
                     </div>
 
                     <div className="flex justify-between">
                         <span>Кількість:</span>
-                        <span className="font-medium">{count} шт.</span>
+                        <span className="font-medium">
+                            {stockQty} шт.
+                        </span>
                     </div>
+
                 </div>
 
-                <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <span className="text-2xl sm:text-3xl font-bold text-blue-600">
-        {price} ₴
-      </span>
+                <div className="mt-5 flex items-center justify-between">
 
-                    <button className="w-full sm:w-auto px-5 py-2.5 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:scale-95 transition">
+                    <span className="text-2xl font-bold text-blue-600">
+                        {price} ₴
+                    </span>
+
+                    <button
+                        type="button"
+                        className="rounded-lg bg-blue-600 px-5 py-2.5 font-medium text-white transition hover:bg-blue-700"
+                    >
                         Купити
                     </button>
+
                 </div>
+
             </div>
         </div>
-    )
-}
-export default Product
+    );
+};
+
+export default Product;

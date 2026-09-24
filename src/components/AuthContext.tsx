@@ -2,7 +2,7 @@ import {
     createContext,
     useContext,
     useState,
-    ReactNode
+    type ReactNode
 } from "react";
 
 interface AuthContextType {
@@ -92,7 +92,8 @@ export function AuthProvider({
 }
 
 export function useAuth() {
-    const context = useContext(AuthContext);
+    const context: AuthContextType | null =
+        useContext(AuthContext);
 
     if (!context) {
         throw new Error(

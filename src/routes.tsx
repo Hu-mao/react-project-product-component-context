@@ -2,7 +2,7 @@ import {
     lazy,
     Suspense
 } from "react";
-
+import { AuthProvider } from "@/components/AuthContext";
 import {
     createBrowserRouter
 } from "react-router";
@@ -46,7 +46,11 @@ const withLoader = (
 export const routes = createBrowserRouter([
     {
         path: "/",
-        element: <Layout />,
+        element: (
+            <AuthProvider>
+                <Layout />
+            </AuthProvider>
+        ),
         errorElement: <Error />,
 
         children: [
