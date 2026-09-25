@@ -12,7 +12,9 @@ import Loader from "@/components/Loader.tsx";
 import Error from "@/components/Error.tsx";
 import {CartProvider} from "@/components/CartStore.tsx";
 import Cart from "@/components/Cart.tsx";
-
+const Home = lazy(
+    () => import("@/components/Home.tsx")
+);
 const CategoriesList = lazy(
     () => import("@/components/CategoriesList.tsx")
 );
@@ -58,6 +60,12 @@ export const routes = createBrowserRouter([
         errorElement: <Error />,
 
         children: [
+            {
+                path: "Home",
+                element: withLoader(
+                    <Home />
+                )
+            },
             {
                 path: "Products",
                 element: withLoader(

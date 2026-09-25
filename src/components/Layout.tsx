@@ -29,7 +29,7 @@ export default function Layout() {
                 <div className="mx-auto flex min-h-18 max-w-7xl items-center gap-8 px-6">
 
                     <Link
-                        to="/"
+                        to="/Home"
                         className="text-2xl font-extrabold tracking-tight text-blue-600 transition hover:text-blue-700"
                     >
                         Shop
@@ -37,7 +37,7 @@ export default function Layout() {
 
                     <nav className="flex flex-1 items-center gap-2">
                         <Link
-                            to="/"
+                            to="/Home"
                             className={`rounded-lg px-4 py-2 text-sm font-medium transition ${
                                 location.pathname === "/"
                                     ? "bg-blue-100 text-blue-700"
